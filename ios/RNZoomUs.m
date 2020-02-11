@@ -1,4 +1,4 @@
-
+#import <React/RCTLog.h>
 #import "RNZoomUs.h"
 
 @implementation RNZoomUs
@@ -41,18 +41,20 @@ RCT_EXPORT_METHOD(
   withReject: (RCTPromiseRejectBlock)reject
 )
 {
+  RCTLogInfo(@"initialize Zoom SDK");
   if (isInitialized) {
     resolve(@"Already initialize Zoom SDK successfully.");
     return;
   }
 
-  isInitialized = true;
-
   @try {
     initializePromiseResolve = resolve;
     initializePromiseReject = reject;
+    MobileRTCSDKInitContext *context = [[MobileRTCSDKInitContext alloc]init];
+    context.domain = webDomain;
+    context.enableLog = @YES;
 
-    [[MobileRTC sharedRTC] setMobileRTCDomain:webDomain];
+    [[MobileRTC sharedRTC] initialize:context];
 
     MobileRTCAuthService *authService = [[MobileRTC sharedRTC] getAuthService];
     if (authService)
@@ -67,6 +69,7 @@ RCT_EXPORT_METHOD(
       NSLog(@"onZoomSDKInitializeResult, no authService");
     }
   } @catch (NSError *ex) {
+      isInitialized = false;
       reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing initialize", ex);
   }
 }
@@ -75,9 +78,7 @@ RCT_EXPORT_METHOD(
   startMeeting: (NSString *)displayName
   withMeetingNo: (NSString *)meetingNo
   withUserId: (NSString *)userId
-  withUserType: (NSInteger)userType
   withZoomAccessToken: (NSString *)zoomAccessToken
-  withZoomToken: (NSString *)zoomToken
   withResolve: (RCTPromiseResolveBlock)resolve
   withReject: (RCTPromiseRejectBlock)reject
 )
@@ -86,17 +87,25 @@ RCT_EXPORT_METHOD(
     meetingPromiseResolve = resolve;
     meetingPromiseReject = reject;
 
+    MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
+    if (settings) {
+      [settings setAutoConnectInternetAudio:@YES];
+      [settings disableCallIn:@YES];
+      [settings disableCallOut:@YES];
+      settings.meetingChatHidden = @YES;
+      settings.meetingParticipantHidden = @YES;
+    }
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
     if (ms) {
       ms.delegate = self;
 
-      MobileRTCMeetingStartParam4WithoutLoginUser * params = [[MobileRTCMeetingStartParam4WithoutLoginUser alloc]init];
+      MobileRTCMeetingStartParam4WithoutLoginUser *params = [[MobileRTCMeetingStartParam4WithoutLoginUser alloc]init];
       params.userName = displayName;
       params.meetingNumber = meetingNo;
       params.userID = userId;
-      params.userType = (MobileRTCUserType)userType;
+      params.userType = MobileRTCUserType_APIUser;
       params.zak = zoomAccessToken;
-      params.userToken = zoomToken;
+      params.userToken = @"null";
 
       MobileRTCMeetError startMeetingResult = [ms startMeetingWithStartParam:params];
       NSLog(@"startMeeting, startMeetingResult=%d", startMeetingResult);
@@ -136,13 +145,14 @@ RCT_EXPORT_METHOD(
 
 - (void)onMobileRTCAuthReturn:(MobileRTCAuthError)returnValue {
   NSLog(@"nZoomSDKInitializeResult, errorCode=%d", returnValue);
-  if(returnValue != MobileRTCAuthError_Success) {
+  if (returnValue != MobileRTCAuthError_Success) {
     initializePromiseReject(
       @"ERR_ZOOM_INITIALIZATION",
       [NSString stringWithFormat:@"Error: %d", returnValue],
       [NSError errorWithDomain:@"us.zoom.sdk" code:returnValue userInfo:nil]
     );
   } else {
+    isInitialized = true;
     initializePromiseResolve(@"Initialize Zoom SDK successfully.");
   }
 }
@@ -192,7 +202,7 @@ RCT_EXPORT_METHOD(
 
   meetingPromiseReject(
     @"ERR_ZOOM_MEETING",
-    [NSString stringWithFormat:@"Error: %d, internalErrorCode=%@", errorCode, message],
+    [NSString stringWithFormat:@"Error: %d, Message=%@", errorCode, message],
     [NSError errorWithDomain:@"us.zoom.sdk" code:errorCode userInfo:nil]
   );
 

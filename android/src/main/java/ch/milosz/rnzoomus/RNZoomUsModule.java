@@ -1,4 +1,4 @@
-package ch.milosz.reactnative;
+package ch.milosz.rnzoomus;
 
 import android.util.Log;
 
@@ -10,7 +10,9 @@ import com.facebook.react.bridge.LifecycleEventListener;
 
 import us.zoom.sdk.ZoomSDK;
 import us.zoom.sdk.ZoomError;
+import us.zoom.sdk.ZoomSDKInitParams;
 import us.zoom.sdk.ZoomSDKInitializeListener;
+import us.zoom.sdk.ZoomSDKRawDataMemoryMode;
 
 import us.zoom.sdk.MeetingStatus;
 import us.zoom.sdk.MeetingError;
@@ -23,12 +25,12 @@ import us.zoom.sdk.StartMeetingParamsWithoutLogin;
 import us.zoom.sdk.JoinMeetingOptions;
 import us.zoom.sdk.JoinMeetingParams;
 
-public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, MeetingServiceListener, LifecycleEventListener {
+public class RNZoomUsModule extends ReactContextBaseJavaModule
+    implements ZoomSDKInitializeListener, MeetingServiceListener, LifecycleEventListener {
 
   private final static String TAG = "RNZoomUs";
   private final ReactApplicationContext reactContext;
 
-  private Boolean isInitialized = false;
   private Promise initializePromise;
   private Promise meetingPromise;
 
@@ -43,24 +45,34 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     return "RNZoomUs";
   }
 
+  @Override
+  public boolean canOverrideExistingModule() {
+    return true;
+  }
+
   @ReactMethod
   public void initialize(final String appKey, final String appSecret, final String webDomain, final Promise promise) {
-    if (isInitialized) {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+    if (zoomSDK.isInitialized()) {
       promise.resolve("Already initialize Zoom SDK successfully.");
       return;
     }
-
-    isInitialized = true;
 
     try {
       initializePromise = promise;
 
       reactContext.getCurrentActivity().runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-            ZoomSDK zoomSDK = ZoomSDK.getInstance();
-            zoomSDK.initialize(reactContext.getCurrentActivity(), appKey, appSecret, webDomain, RNZoomUsModule.this);
-          }
+        @Override
+        public void run() {
+          ZoomSDKInitParams initParams = new ZoomSDKInitParams();
+          initParams.appKey = appKey;
+          initParams.appSecret = appSecret;
+          initParams.domain = webDomain;
+          initParams.autoRetryVerifyApp = true;
+          initParams.enableLog = true;
+          initParams.videoRawDataMemoryMode = ZoomSDKRawDataMemoryMode.ZoomSDKRawDataMemoryModeStack;
+          ZoomSDK.getInstance().initialize(reactContext.getCurrentActivity(), RNZoomUsModule.this, initParams);
+        }
       });
     } catch (Exception ex) {
       promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
@@ -68,26 +80,19 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void startMeeting(
-    final String displayName,
-    final String meetingNo,
-    final String userId,
-    final int userType,
-    final String zoomAccessToken,
-    final String zoomToken,
-    Promise promise
-  ) {
+  public void startMeeting(final String displayName, final String meetingNo, final String userId, final String zac,
+      Promise promise) {
     try {
       meetingPromise = promise;
 
       ZoomSDK zoomSDK = ZoomSDK.getInstance();
-      if(!zoomSDK.isInitialized()) {
+      if (!zoomSDK.isInitialized()) {
         promise.reject("ERR_ZOOM_START", "ZoomSDK has not been initialized successfully");
         return;
       }
 
       final MeetingService meetingService = zoomSDK.getMeetingService();
-      if(meetingService.getMeetingStatus() != MeetingStatus.MEETING_STATUS_IDLE) {
+      if (meetingService.getMeetingStatus() != MeetingStatus.MEETING_STATUS_IDLE) {
         long lMeetingNo = 0;
         try {
           lMeetingNo = Long.parseLong(meetingNo);
@@ -96,21 +101,29 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           return;
         }
 
-        if(meetingService.getCurrentRtcMeetingNumber() == lMeetingNo) {
+        if (meetingService.getCurrentRtcMeetingNumber() == lMeetingNo) {
           meetingService.returnToMeeting(reactContext.getCurrentActivity());
           promise.resolve("Already joined zoom meeting");
           return;
         }
       }
-
+      zoomSDK.getMeetingSettingsHelper().disableChatUI(true);
+      zoomSDK.getMeetingSettingsHelper().setAutoConnectVoIPWhenJoinMeeting(true);
       StartMeetingOptions opts = new StartMeetingOptions();
+      opts.no_dial_in_via_phone = true;
+      opts.no_dial_out_to_phone = true;
+      opts.no_disconnect_audio = true;
+      opts.no_invite = true;
+      opts.no_share = true;
+      opts.no_unmute_confirm_dialog = true;
+      opts.no_webinar_register_dialog = true;
       StartMeetingParamsWithoutLogin params = new StartMeetingParamsWithoutLogin();
       params.displayName = displayName;
       params.meetingNo = meetingNo;
       params.userId = userId;
-      params.userType = userType;
-      params.zoomAccessToken = zoomAccessToken;
-      params.zoomToken = zoomToken;
+      params.userType = MeetingService.USER_TYPE_API_USER;
+      params.zoomAccessToken = zac;
+      params.zoomToken = "null";
 
       int startMeetingResult = meetingService.startMeetingWithParams(reactContext.getCurrentActivity(), params, opts);
       Log.i(TAG, "startMeeting, startMeetingResult=" + startMeetingResult);
@@ -124,16 +137,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void joinMeeting(
-    final String displayName,
-    final String meetingNo,
-    Promise promise
-  ) {
+  public void joinMeeting(final String displayName, final String meetingNo, Promise promise) {
     try {
       meetingPromise = promise;
 
       ZoomSDK zoomSDK = ZoomSDK.getInstance();
-      if(!zoomSDK.isInitialized()) {
+      if (!zoomSDK.isInitialized()) {
         promise.reject("ERR_ZOOM_JOIN", "ZoomSDK has not been initialized successfully");
         return;
       }
@@ -159,11 +168,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onZoomSDKInitializeResult(int errorCode, int internalErrorCode) {
     Log.i(TAG, "onZoomSDKInitializeResult, errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
-    if(errorCode != ZoomError.ZOOM_ERROR_SUCCESS) {
-      initializePromise.reject(
-              "ERR_ZOOM_INITIALIZATION",
-              "Error: " + errorCode + ", internalErrorCode=" + internalErrorCode
-      );
+    if (errorCode != ZoomError.ZOOM_ERROR_SUCCESS) {
+      initializePromise.reject("ERR_ZOOM_INITIALIZATION",
+          "Error: " + errorCode + ", internalErrorCode=" + internalErrorCode);
     } else {
       registerListener();
       initializePromise.resolve("Initialize Zoom SDK successfully.");
@@ -172,17 +179,15 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @Override
   public void onMeetingStatusChanged(MeetingStatus meetingStatus, int errorCode, int internalErrorCode) {
-    Log.i(TAG, "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
+    Log.i(TAG, "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", Message="
+        + internalErrorCode);
 
     if (meetingPromise == null) {
       return;
     }
 
-    if(meetingStatus == MeetingStatus.MEETING_STATUS_FAILED) {
-      meetingPromise.reject(
-              "ERR_ZOOM_MEETING",
-              "Error: " + errorCode + ", internalErrorCode=" + internalErrorCode
-      );
+    if (meetingStatus == MeetingStatus.MEETING_STATUS_FAILED) {
+      meetingPromise.reject("ERR_ZOOM_MEETING", "Error: " + errorCode + ", Message=" + internalErrorCode);
       meetingPromise = null;
     } else if (meetingStatus == MeetingStatus.MEETING_STATUS_INMEETING) {
       meetingPromise.resolve("Connected to zoom meeting");
@@ -194,7 +199,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     Log.i(TAG, "registerListener");
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
     MeetingService meetingService = zoomSDK.getMeetingService();
-    if(meetingService != null) {
+    if (meetingService != null) {
       meetingService.addListener(this);
     }
   }
@@ -202,7 +207,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private void unregisterListener() {
     Log.i(TAG, "unregisterListener");
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
-    if(zoomSDK.isInitialized()) {
+    if (zoomSDK.isInitialized()) {
       MeetingService meetingService = zoomSDK.getMeetingService();
       meetingService.removeListener(this);
     }
@@ -218,8 +223,17 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onHostDestroy() {
     unregisterListener();
   }
+
   @Override
-  public void onHostPause() {}
+  public void onHostPause() {
+  }
+
   @Override
-  public void onHostResume() {}
+  public void onHostResume() {
+  }
+
+  @Override
+  public void onZoomAuthIdentityExpired() {
+    Log.d(TAG, "onZoomAuthIdentityExpired:");
+  }
 }

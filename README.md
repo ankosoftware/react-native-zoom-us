@@ -91,7 +91,7 @@ Note: if you do not have `Copy Bundle Resources` you can add it by clicking on t
 #### Android
 
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
-  - Add `import ch.milosz.reactnative.RNZoomUsPackage;` to the imports at the top of the file
+  - Add `import ch.milosz.rnzoomus.RNZoomUsPackage;` to the imports at the top of the file
   - Add `new RNZoomUsPackage()` to the list returned by the `getPackages()` method
 2. Append the following lines to `android/settings.gradle`:
   	```
@@ -121,10 +121,9 @@ await ZoomUs.startMeeting(
   meetingNo,
   userId, // can be 'null'?
   userType, // for pro user use 2
-  zoomAccessToken, // zak token
-  zoomToken // can be 'null'?
+  zoomAccessToken // zak token
 
-  // NOTE: userId, userType, zoomToken should be taken from user hosting this meeting (not sure why it is required)
+  // NOTE: userId, userType should be taken from user hosting this meeting (not sure why it is required)
   // But it works with putting only zoomAccessToken
 );
 

@@ -1,5 +1,5 @@
 
-package ch.milosz.reactnative;
+package ch.milosz.rnzoomus;
 
 import java.util.Arrays;
 import java.util.Collections;
