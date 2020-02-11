@@ -3,7 +3,7 @@
 
 This is a minimum bridge of https://github.com/zoom/zoom-sdk-android and https://github.com/zoom/zoom-sdk-ios
 
-Tested on XCode 9.4.1 and node 10.14.1.
+Tested on XCode 11.3.1 and node 13.8.0.
 
 Pull requests are welcome.
 
@@ -50,7 +50,7 @@ So the above solution seems to be the best for now.
 
 1. In XCode, in your main project go to `General` tab, expand `Linked Frameworks and Libraries` and add the following libraries:
 * `libsqlite3.tbd`
-* `libstdc++.6.0.9.tbd`
+* `libc++.tbd`
 * `libz.1.2.5.tbd`
 
 2. In XCode, in your main project go to `General` tab, expand `Linked Frameworks and Libraries` and add `MobileRTC.framework`:
@@ -119,8 +119,7 @@ await ZoomUs.initialize(
 await ZoomUs.startMeeting(
   displayName,
   meetingNo,
-  userId, // can be 'null'?
-  userType, // for pro user use 2
+  userId,
   zoomAccessToken // zak token
 
   // NOTE: userId, userType should be taken from user hosting this meeting (not sure why it is required)
