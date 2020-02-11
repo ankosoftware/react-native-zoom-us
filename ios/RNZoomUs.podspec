@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.license      = "MIT"
   s.author             = { "author" => "author@domain.cn" }
   s.platform     = :ios, "8.0"
-  s.source       = { :git => "https://github.com/mieszko4/react-native-zoom-us.git", :tag => "master" }
+  s.source       = { :git => "https://github.com/SergeyG/react-native-zoom-us.git", :tag => "master" }
   s.source_files  = "**/*.{h,m}"
   s.requires_arc = true
   s.dependency "React"
