@@ -6,7 +6,7 @@
 //  Copyright © 2019年 Zoom Video Communications, Inc. All rights reserved.
 //
 
-#import <MobileRTC/MobileRTC.h>
+#import <MobileRTC.h>
 
 /*!
  @brief Starts an App share meeting.

@@ -6,9 +6,9 @@
 //  Copyright © 2019年 Zoom Video Communications, Inc. All rights reserved.
 //
 
-#import <MobileRTC/MobileRTC.h>
-#import <MobileRTC/MobileRTCRoomDevice.h>
-#import <MobileRTC/MobileRTCCallCountryCode.h>
+#import <MobileRTC.h>
+#import <MobileRTCRoomDevice.h>
+#import <MobileRTCCallCountryCode.h>
 
 /*!
  @brief Provide interfaces for outgoing calls and Call Room Device.
