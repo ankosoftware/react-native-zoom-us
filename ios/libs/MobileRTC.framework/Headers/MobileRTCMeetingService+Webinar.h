@@ -6,7 +6,7 @@
 //  Copyright © 2019 Zoom Video Communications, Inc. All rights reserved.
 //
 
-#import <MobileRTC.h>
+#import "MobileRTC.h"
 #import "MobileRTCQAItem.h"
 
 @interface MobileRTCMeetingService (Webinar)

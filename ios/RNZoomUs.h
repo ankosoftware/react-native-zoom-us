@@ -1,6 +1,6 @@
 #import <React/RCTBridgeModule.h>
 
-#import <MobileRTC.h>
+#import <MobileRTC/MobileRTC.h>
 
 @interface RNZoomUs : NSObject <RCTBridgeModule, MobileRTCAuthDelegate, MobileRTCMeetingServiceDelegate>
 

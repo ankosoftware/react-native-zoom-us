@@ -6,9 +6,9 @@
 //  Copyright © 2019年 Zoom Video Communications, Inc. All rights reserved.
 //
 
-#import <MobileRTC.h>
-#import <MobileRTCMeetingUserInfo.h>
-#import <MobileRTCMeetingChat.h>
+#import "MobileRTC.h"
+#import "MobileRTC/MobileRTCMeetingUserInfo.h"
+#import "MobileRTCMeetingChat.h"
 
 /*!
  @brief Set to provide interfaces for meeting events
