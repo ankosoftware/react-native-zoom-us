@@ -6,7 +6,7 @@
 //  Copyright © 2019 Zoom Video Communications, Inc. All rights reserved.
 //
 
-#import <MobileRTC.h>
+#import <MobileRTC/MobileRTC.h>
 
 typedef enum {
     ///All the members in the group. 
