@@ -6,13 +6,13 @@
 //  Copyright © 2019 Zoom Video Communications, Inc. All rights reserved.
 //
 
-#import <MobileRTC/MobileRTC.h>
+#import <MobileRTC.h>
 #import "MobileRTCQAItem.h"
 
 @interface MobileRTCMeetingService (Webinar)
 
 /*!
- @brief Query if the user has the privilege to prompt or demote users in the webinar. 
+ @brief Query if the user has the privilege to prompt or demote users in the webinar.
  @return YES means that user owns the privilege, otherwise not.
  */
 - (BOOL)hasPromptAndDePromptPrivilige;
@@ -25,7 +25,7 @@
 - (BOOL)promptAttendee2Panelist:(NSUInteger)userID;
 
 /*!
- @brief Demote the panelist to attendee. 
+ @brief Demote the panelist to attendee.
  @return YES means that the method is called successfully, otherwise not.
  @warning Only meeting host/co-host can run the function.
  */
@@ -40,7 +40,7 @@
 
 /*!
  @brief Query if attendee is allowed to talk in Webinar Meeting.
- @param userId The ID of user to be allowed. 
+ @param userId The ID of user to be allowed.
  @return YES means allowed, otherwise not.
  @warning Only meeting host/co-host can run the function.
  */
@@ -100,7 +100,7 @@
 - (BOOL)allowAttendeeViewAllQuestion:(BOOL)enable;
 
 /*!
- @brief Query if attendee is allowed to submit questions. 
+ @brief Query if attendee is allowed to submit questions.
  @return YES means allowed, otherwise not.
  */
 - (BOOL)isAllowAttendeeUpVoteQuestion;

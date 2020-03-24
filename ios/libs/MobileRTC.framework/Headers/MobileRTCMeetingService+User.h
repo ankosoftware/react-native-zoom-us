@@ -6,7 +6,7 @@
 //  Copyright © 2019 Zoom Video Communications, Inc. All rights reserved.
 //
 
-#import <MobileRTC/MobileRTC.h>
+#import <MobileRTC.h>
 
 @interface MobileRTCMeetingService (User)
 
@@ -15,7 +15,7 @@
  @param inputName The screen name displayed in meeting.
  @param userId User ID.
  @return YES means that the method is called successfully, otherwise not.
- @warning Normal user can change his own screen name, while the host/co-host can change all attendees' names. 
+ @warning Normal user can change his own screen name, while the host/co-host can change all attendees' names.
  */
 - (BOOL)changeName:(nonnull NSString*)inputName withUserID:(NSUInteger)userId;
 
@@ -95,7 +95,7 @@
 - (BOOL)isHostUser:(NSUInteger)userID;
 
 /*!
- @brief Query if the ID is the current user's.  
+ @brief Query if the ID is the current user's.
  @param userID The ID of user to be checked.
  @return TRUE means user himself. FALSE not.
  */

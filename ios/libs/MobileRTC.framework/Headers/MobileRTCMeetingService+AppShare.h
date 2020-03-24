@@ -6,7 +6,7 @@
 //  Copyright © 2019年 Zoom Video Communications, Inc. All rights reserved.
 //
 
-#import <MobileRTC/MobileRTC.h>
+#import <MobileRTC.h>
 
 /*!
  @brief Starts an App share meeting.
@@ -14,7 +14,7 @@
 @interface MobileRTCMeetingService (AppShare)
 
 /*!
- @brief Query if the current meeting is enabled with App share. 
+ @brief Query if the current meeting is enabled with App share.
  @return YES means that meeting starts by App share, otherwise not.
  */
 - (BOOL)isDirectAppShareMeeting;
@@ -29,8 +29,8 @@
 
 /*!
  @brief Share content with ReplayKit.
- @warning Available only for iOS 11 version minimum.  
- @warning Once the interface has been called, the view will be updated 2.5s later than the operation. ReplayKit won't send the view out if the UI content does not change. 
+ @warning Available only for iOS 11 version minimum.
+ @warning Once the interface has been called, the view will be updated 2.5s later than the operation. ReplayKit won't send the view out if the UI content does not change.
  */
 - (void)appShareWithReplayKit DEPRECATED_ATTRIBUTE;
 
@@ -46,7 +46,7 @@
 - (void)stopAppShare;
 
 /*!
- @brief Notify the current user if he is sharing. 
+ @brief Notify the current user if he is sharing.
  @return YES means that the current user is sharing, otherwise not.
  */
 - (BOOL)isStartingShare;

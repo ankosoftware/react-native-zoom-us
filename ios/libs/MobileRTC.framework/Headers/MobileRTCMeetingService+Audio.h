@@ -6,7 +6,7 @@
 //  Copyright © 2019 Zoom Video Communications, Inc. All rights reserved.
 //
 
-#import <MobileRTC/MobileRTC.h>
+#import <MobileRTC.h>
 
 @interface MobileRTCMeetingService (Audio)
 
@@ -42,13 +42,13 @@
 - (BOOL)canUnmuteMyAudio;
 
 /*!
- @brief Query if is enabled to mute attendees when they join the meeting. 
+ @brief Query if is enabled to mute attendees when they join the meeting.
  @return YES means enabled, otherwise not.
  */
 - (BOOL)isMuteOnEntryOn;
 
 /*!
- @brief Set if attendees join the meeting with audio muted. 
+ @brief Set if attendees join the meeting with audio muted.
  @return YES means muted, otherwise not.
  @warning Only meeting host can run the function.
  */

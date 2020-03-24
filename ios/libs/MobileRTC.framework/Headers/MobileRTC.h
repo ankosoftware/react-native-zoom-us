@@ -7,34 +7,34 @@
 //
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import <MobileRTC/MobileRTCConstants.h>
-#import <MobileRTC/MobileRTCAuthService.h>
-#import <MobileRTC/MobileRTCMeetingService.h>
-#import <MobileRTC/MobileRTCMeetingService+AppShare.h>
-#import <MobileRTC/MobileRTCMeetingService+InMeeting.h>
-#import <MobileRTC/MobileRTCMeetingService+Customize.h>
-#import <MobileRTC/MobileRTCMeetingService+Audio.h>
-#import <MobileRTC/MobileRTCMeetingService+Video.h>
-#import <MobileRTC/MobileRTCMeetingService+User.h>
-#import <MobileRTC/MobileRTCMeetingService+Chat.h>
-#import <MobileRTC/MobileRTCMeetingService+Webinar.h>
-#import <MobileRTC/MobileRTCMeetingService+VirtualBackground.h>
-#import <MobileRTC/MobileRTCMeetingSettings.h>
-#import <MobileRTC/MobileRTCInviteHelper.h>
-#import <MobileRTC/MobileRTCPremeetingService.h>
-#import <MobileRTC/MobileRTCRoomDevice.h>
-#import <MobileRTC/MobileRTCMeetingUserInfo.h>
-#import <MobileRTC/MobileRTCMeetingChat.h>
-#import <MobileRTC/MobileRTCE2EMeetingKey.h>
-#import <MobileRTC/MobileRTCMeetingDelegate.h>
-#import <MobileRTC/MobileRTCVideoView.h>
-#import <MobileRTC/MobileRTCMeetingActionItem.h>
-#import <MobileRTC/MobileRTCAnnotationService.h>
-#import <MobileRTC/MobileRTCRemoteControlService.h>
-#import <MobileRTC/MobileRTCWaitingRoomService.h>
-#import <MobileRTC/MobileRTCRenderer.h>
-#import <MobileRTC/MobileRTCAudioRawDataHelper.h>
-#import <MobileRTC/MobileRTCSMSService.h>
+#import <MobileRTCConstants.h>
+#import <MobileRTCAuthService.h>
+#import <MobileRTCMeetingService.h>
+#import <MobileRTCMeetingService+AppShare.h>
+#import <MobileRTCMeetingService+InMeeting.h>
+#import <MobileRTCMeetingService+Customize.h>
+#import <MobileRTCMeetingService+Audio.h>
+#import <MobileRTCMeetingService+Video.h>
+#import <MobileRTCMeetingService+User.h>
+#import <MobileRTCMeetingService+Chat.h>
+#import <MobileRTCMeetingService+Webinar.h>
+#import <MobileRTCMeetingService+VirtualBackground.h>
+#import <MobileRTCMeetingSettings.h>
+#import <MobileRTCInviteHelper.h>
+#import <MobileRTCPremeetingService.h>
+#import <MobileRTCRoomDevice.h>
+#import <MobileRTCMeetingUserInfo.h>
+#import <MobileRTCMeetingChat.h>
+#import <MobileRTCE2EMeetingKey.h>
+#import <MobileRTCMeetingDelegate.h>
+#import <MobileRTCVideoView.h>
+#import <MobileRTCMeetingActionItem.h>
+#import <MobileRTCAnnotationService.h>
+#import <MobileRTCRemoteControlService.h>
+#import <MobileRTCWaitingRoomService.h>
+#import <MobileRTCRenderer.h>
+#import <MobileRTCAudioRawDataHelper.h>
+#import <MobileRTCSMSService.h>
 
 /*!
  @brief MobileRTCSDKInitContext.
@@ -76,9 +76,9 @@
 
 /*!
  @class MobileRTC
- @brief Initialize the class to acquire all the services. 
+ @brief Initialize the class to acquire all the services.
  @warning Access to the class and all the other components of the MobileRTC by merging <MobileRTC/MobileRTC.h> into source code.
- @warning The user can only obtain SDK configuration by initializing the class.  
+ @warning The user can only obtain SDK configuration by initializing the class.
  */
 @interface MobileRTC : NSObject
 {
@@ -87,25 +87,25 @@
     NSString               *_mobileRTCCustomLocalizableName;
     MobileRTCMeetingService         *_meetingService;
     MobileRTCMeetingSettings        *_meetingSettings;
-    
+
     MobileRTCAuthService            *_authService;
     MobileRTCPremeetingService      *_premeetingService;
-    
+
     MobileRTCAnnotationService      *_annotationService;
-    
+
     MobileRTCRemoteControlService   *_remoteControlService;
     MobileRTCWaitingRoomService     *_waitingRoomService;
-    
+
     MobileRTCSMSService             *_smsService;
 }
 
 /*!
- @brief MobileRTC domain, read-only.  
+ @brief MobileRTC domain, read-only.
  */
 @property (retain, nonatomic, readonly) NSString * _Nullable mobileRTCDomain;
 
 /*!
- @brief The path of MobileRTC Resources Bundle, read-only. 
+ @brief The path of MobileRTC Resources Bundle, read-only.
  */
 @property (retain, nonatomic, readonly) NSString * _Nullable mobileRTCResPath;
 
@@ -158,9 +158,9 @@
 /*!
  @deprecated This method will be deleted in next release.
  @brief Set MobileRTC client domain.
- @warning Set the domain while initializing MobileRTC. 
+ @warning Set the domain while initializing MobileRTC.
  @param domain The domain is used to start/join a ZOOM meeting.
- @warning It is necessary to call the function once the application starts. 
+ @warning It is necessary to call the function once the application starts.
  */
 - (void)setMobileRTCDomain:(NSString * _Nonnull)domain DEPRECATED_MSG_ATTRIBUTE("Will be deleted in the next release. Please use [[MobileRTC sharedRTC] initialize:context] instead");
 
@@ -168,7 +168,7 @@
  @deprecated This method will be deleted in next release.
  @note Please use + (void)initializeWithDomain:(NSString*)domain enableLog:(BOOL)enableLog bundleResPath:(NSString*)bundleResPath;
  @brief Set the path of MobileRTC resource bundle.
- @warning This method is optional, the MobileRTCResources.bundle is located in main bundle if the function is not called; otherwise it is necessary to set the MobileRTC Resources path while initializing MobileRTC. 
+ @warning This method is optional, the MobileRTCResources.bundle is located in main bundle if the function is not called; otherwise it is necessary to set the MobileRTC Resources path while initializing MobileRTC.
  @param path The path of MobileRTC Resources bundle.
  */
 - (void)setMobileRTCResPath:(NSString * _Nullable)path DEPRECATED_MSG_ATTRIBUTE("Will be deleted in the next release. Please use [[MobileRTC sharedRTC] initialize:context] instead");
@@ -181,72 +181,72 @@
 - (void)setMobileRTCCustomLocalizableName:(NSString * _Nullable)localizableName;
 
 /*!
- @brief Get the root navigation controller of MobileRTC client.  
- @warning This method is for internal use, the user generally won't call the method. 
+ @brief Get the root navigation controller of MobileRTC client.
+ @warning This method is for internal use, the user generally won't call the method.
  @return The root navigation controller.
  */
 - (UINavigationController * _Nullable)mobileRTCRootController;
 
 /*!
- @brief Set the MobileRTC client root navigation controller.   
+ @brief Set the MobileRTC client root navigation controller.
  @warning This method is optional, call the method if the window's rootViewController of the application is the UINavigationController, or just ignore it.
- @param navController The root navigation controller for pushing MobileRTC meeting UI. 
+ @param navController The root navigation controller for pushing MobileRTC meeting UI.
  */
 - (void)setMobileRTCRootController:(UINavigationController * _Nullable)navController;
 
 /*!
- @brief Check the MobileRTC version.  
+ @brief Check the MobileRTC version.
  @return The version of MobileRTC.
  */
 - (NSString * _Nullable)mobileRTCVersion;
 
 /*!
- @brief Query if the MobileRTC is authorized successfully or not. 
+ @brief Query if the MobileRTC is authorized successfully or not.
  @return YES indicates authorized successfully. Otherwise not.
  */
 - (BOOL)isRTCAuthorized;
 
 /*!
- @brief Query if custom meeting UI is supported by MobileRTC. 
+ @brief Query if custom meeting UI is supported by MobileRTC.
  @return YES indicates support. Otherwise not.
  */
 - (BOOL)isSupportedCustomizeMeetingUI;
 
 /*!
- @brief Get the default authentication service.  
- @warning The MobileRTC can not be called unless the authentication service is called successfully. 
- @return The preconfigured authentication service. 
+ @brief Get the default authentication service.
+ @warning The MobileRTC can not be called unless the authentication service is called successfully.
+ @return The preconfigured authentication service.
  */
 - (MobileRTCAuthService * _Nullable)getAuthService;
 
 /*!
- @brief Get the default pre-meeting service. 
+ @brief Get the default pre-meeting service.
  @warning Pre-meeting Service will be called once the user logged in with a work email, it is used to schedule/edit/list/delete a meeting.
  @return The preconfigured pre-meeting service.
  */
 - (MobileRTCPremeetingService * _Nullable)getPreMeetingService;
 
 /*!
- @brief Get the default meeting service.  
- @return The default meeting service.  
+ @brief Get the default meeting service.
+ @return The default meeting service.
  */
 - (MobileRTCMeetingService * _Nullable)getMeetingService;
 
 /*!
- @brief Get the MobileRTC default meeting settings. 
- @return The MobileRTC default meeting settings. 
+ @brief Get the MobileRTC default meeting settings.
+ @return The MobileRTC default meeting settings.
  */
 - (MobileRTCMeetingSettings * _Nullable)getMeetingSettings;
 
 /*!
- @brief Get the MobileRTC default annotation service.   
- @return The preconfigured annotation service.  
+ @brief Get the MobileRTC default annotation service.
+ @return The preconfigured annotation service.
  */
 - (MobileRTCAnnotationService * _Nullable)getAnnotationService;
 
 /*!
- @brief Get the default MobileRTC remote control service.   
- @return The preconfigured remote control service. 
+ @brief Get the default MobileRTC remote control service.
+ @return The preconfigured remote control service.
  */
 - (MobileRTCRemoteControlService * _Nullable)getRemoteControlService;
 
@@ -263,7 +263,7 @@
 - (MobileRTCSMSService * _Nullable)getSMSService;
 
 /*!
- @brief Get the languages supported by MobileRTC.   
+ @brief Get the languages supported by MobileRTC.
  @warning The languages supported by MobileRTC are English, German, Spanish, Japanese, French, Simplified Chinese, Traditional Chinese.
  @return An array of languages supported by MobileRTC.
  */
@@ -271,27 +271,27 @@
 
 /*!
  @brief Set the MobileRTC language.
- @warning Choose one of the languages supported by MobileRTC.  
- @param lang The specified language.  
+ @warning Choose one of the languages supported by MobileRTC.
+ @param lang The specified language.
  */
 - (void)setLanguage:(NSString * _Nullable)lang;
 
 /*!
  @deprecated This method will be deleted in next release.
- @brief Set the AppGroup ID of the application. 
+ @brief Set the AppGroup ID of the application.
  @warning The Method is used for iOS Replaykit Screen share integration and should be called after SDK initiation.
  */
 - (void)setAppGroupsName:(NSString * _Nullable)appGroupId DEPRECATED_MSG_ATTRIBUTE("Will be deleted in the next release. Please use [[MobileRTC sharedRTC] initialize:context] instead");
 
 /*!
  @brief Notify common layer that application will resign active. Call the systematical method and then call the appWillResignActive via applicationWillResignActive.
- @warning It is necessary to call the method in AppDelegate "- (void)applicationWillResignActive:(UIApplication *)application".  
+ @warning It is necessary to call the method in AppDelegate "- (void)applicationWillResignActive:(UIApplication *)application".
  */
 - (void)appWillResignActive;
 
 /*!
  @brief Notify common layer that application did become active. Call the appDidBecomeActive via applicationDidBecomeActive.
- @warning It is necessary to call the method in AppDelegate "- (void)applicationDidBecomeActive:(UIApplication *)application". 
+ @warning It is necessary to call the method in AppDelegate "- (void)applicationDidBecomeActive:(UIApplication *)application".
  */
 - (void)appDidBecomeActive;
 

@@ -6,9 +6,9 @@
 //  Copyright © 2019年 Zoom Video Communications, Inc. All rights reserved.
 //
 
-#import <MobileRTC/MobileRTC.h>
-#import <MobileRTC/MobileRTCMeetingUserInfo.h>
-#import <MobileRTC/MobileRTCMeetingChat.h>
+#import <MobileRTC.h>
+#import <MobileRTCMeetingUserInfo.h>
+#import <MobileRTCMeetingChat.h>
 
 /*!
  @brief Set to provide interfaces for meeting events
@@ -87,7 +87,7 @@
 #pragma mark Meeting Info Related
 /*!
  @brief Set custom meeting session key
- @param keyArray The array of meeting session keys. 
+ @param keyArray The array of meeting session keys.
  @param leave YES means leaving meeting directly, otherwise not.
  @return YES means that the method is called successfully, otherwise not.
  @warning The method is optional.
@@ -181,8 +181,8 @@
 #pragma mark Live Stream
 /*!
  @brief Set to start Live Stream.
- @param streamingURL The live stream URL by which you can live the meeting. 
- @param key Stream key offered by the third platform on which you want to live stream your meeting. 
+ @param streamingURL The live stream URL by which you can live the meeting.
+ @param key Stream key offered by the third platform on which you want to live stream your meeting.
  @param broadcastURL The URL of live stream page.
  @return YES means that the method is called successfully, otherwise not.
  @warning Only meeting host can start live Stream successfully.
@@ -191,7 +191,7 @@
 /*!
  @brief Get live stream server URL.
  @return The dictionary of live stream URL if the function succeeds.
- @warning The function is available only for host. 
+ @warning The function is available only for host.
  For Facebook Live Stream Service, fb_workplace action the key in Dictionary
  For Custom Live Stream Service, custom action the key in Dictionary
  */
@@ -200,7 +200,7 @@
 /*!
  @brief Set to stop live streaming.
  @return YES means stopping live streaming successfully, otherwise not.
- @warning The function is available only for host. 
+ @warning The function is available only for host.
  */
 - (BOOL)stopLiveStream;
 

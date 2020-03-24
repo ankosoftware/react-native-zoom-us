@@ -6,10 +6,10 @@
 //  Copyright © 2019 Zoom Video Communications, Inc. All rights reserved.
 //
 
-#import <MobileRTC/MobileRTC.h>
+#import <MobileRTC.h>
 
 typedef enum {
-    ///All the members in the group. 
+    ///All the members in the group.
     MobileRTCChatGroup_All                   = 0,
     ///Panelists.
     MobileRTCChatGroup_Panelists              = 1,
@@ -19,12 +19,12 @@ typedef enum {
 
 /*!
  @brief Query if the chat is disabled in the meeting.
- @return YES means disabled, otherwise not. 
+ @return YES means disabled, otherwise not.
  */
 - (BOOL)isChatDisabled;
 
 /*!
- @brief Query if it is able to send private chat in the meeting. 
+ @brief Query if it is able to send private chat in the meeting.
  @return YES means disabled, otherwise not.
  */
 - (BOOL)isPrivateChatDisabled;
@@ -43,7 +43,7 @@ typedef enum {
 - (MobileRTCMeetingChatPriviledgeType)getAttendeeChatPriviledge;
 
 /*!
- @brief Get in-meeting chat message. 
+ @brief Get in-meeting chat message.
  @param messageID The ID of the message sent in the meeting.
  @return The instance of in-meeting chat.
  @warning The method is optional.

@@ -6,12 +6,12 @@
 //  Copyright © 2019 Zoom Video Communications, Inc. All rights reserved.
 //
 
-#import <MobileRTC/MobileRTC.h>
+#import <MobileRTC.h>
 
 @interface MobileRTCMeetingService (Video)
 
 /*!
- @brief Query if the user is sending video.  
+ @brief Query if the user is sending video.
  @return YES means sending, otherwise not.
  */
 - (BOOL)isSendingMyVideo;
@@ -30,7 +30,7 @@
 - (MobileRTCVideoError)muteMyVideo:(BOOL)mute;
 
 /*!
- @brief Query if user's video is spotlighted. Once the user's video is spotlighted, it will show only the specified video in the meeting instead of active user's.  
+ @brief Query if user's video is spotlighted. Once the user's video is spotlighted, it will show only the specified video in the meeting instead of active user's.
  @param userId The ID of user in meeting.
  @return YES means spotlighted, otherwise not.
  */
@@ -46,15 +46,15 @@
 - (BOOL)spotlightVideo:(BOOL)on withUser:(NSUInteger)userId;
 
 /*!
- @brief Query if the user's video is pinned. 
+ @brief Query if the user's video is pinned.
  @param userId The ID of user whose video will be pinned in the meeting.
  @return YES means that the user's video is pinned, otherwise not.
  */
 - (BOOL)isUserPinned:(NSUInteger)userId;
 
 /*!
- @brief Set whether to pin user's video or not. 
- @param on YES means to pin user's video, otherwise not. 
+ @brief Set whether to pin user's video or not.
+ @param on YES means to pin user's video, otherwise not.
  @param userId The ID of user whose video will be pinned.
  @return YES means that the method is called successfully, otherwise not.
  */
@@ -69,7 +69,7 @@
 
 /*!
  @brief Set to stop user's video.
- @param userID The ID of other users except the host in the meeting. 
+ @param userID The ID of other users except the host in the meeting.
  @return YES means that the method is called successfully, otherwise not.
  @warning Only host can run the function in the meeting.
  */
@@ -99,7 +99,7 @@
 
 /*!
  @brief Set to Switch the camera of the current user in local device.
- @return The result of operation. 
+ @return The result of operation.
  */
 - (MobileRTCCameraError)switchMyCamera;
 @end
