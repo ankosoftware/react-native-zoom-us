@@ -143,6 +143,18 @@ RCT_EXPORT_METHOD(
   }
 }
 
+RCT_EXPORT_METHOD(leaveMeeting)
+{
+  @try {
+    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+    if (ms) {
+      ms.delegate = self;
+      [ms leaveMeetingWithCmd:(LeaveMeetingCmd_Leave)];
+    }
+  } @catch (NSError *ex) {
+  }
+}
+
 - (void)onMobileRTCAuthReturn:(MobileRTCAuthError)returnValue {
   NSLog(@"nZoomSDKInitializeResult, errorCode=%d", returnValue);
   if (returnValue != MobileRTCAuthError_Success) {
